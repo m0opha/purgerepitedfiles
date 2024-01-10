@@ -7,6 +7,7 @@ from colorama import Fore, Style, Back
 from modules import FileHashCalculator
 from modules import TraverseDirectoryTree
 from modules import ProgressBarLogger
+from modules import parser
 
 def GetHashingFiles(path:str, extensions:list):
 
@@ -38,34 +39,38 @@ def GetHashingFiles(path:str, extensions:list):
     return hashing_files , used_files
 
 def findrepitedfiles(hashingfiles:dict):
+
     progress_logger = ProgressBarLogger()
     progress_logger.initUI("[*] Find repited files and purge")
     
     non_repited_files = []
     repited_files = []
+    
     total_files = len(hashingfiles)
     auto_increment = 0
+    
     try:
-        for _ , _value in hashingfiles.items():        
+        for _value in hashingfiles.values():        
             
             ActualHash = list(_value.keys())[0]
             ActualPath = list(_value.values())[0]
 
-            for _intenrkey , _internvalue in hashingfiles.items():
+            if ActualPath in repited_files:
+                auto_increment += 1
+                continue
+
+            for _internvalue in hashingfiles.values():
+          
                 probehash = list(_internvalue.keys())[0]
                 probepath = list(_internvalue.values())[0]
                 
-                if (ActualHash == probehash) and (probepath != ActualPath) and (ActualPath not in repited_files):
-                
+                if (ActualHash == probehash) and (probepath != ActualPath):
                     progress_logger.drawProgressBar(int(auto_increment*100/total_files))
-                    progress_logger.log(f"[-] {probepath}")
-                    
+                    progress_logger.log(f"[*] {probepath}")
                     repited_files.append(probepath)                 
                     continue
                 
-            if ActualPath not in repited_files:
-                non_repited_files.append(ActualPath)
-            
+            non_repited_files.append(ActualPath)
             auto_increment += 1
 
     except KeyboardInterrupt:
@@ -74,8 +79,11 @@ def findrepitedfiles(hashingfiles:dict):
     finally:
         progress_logger.close()
 
+
     return non_repited_files
  
+
+
 def copyfilesto(files:list, destine_path:str):
 
     if not os.path.exists(destine_path):
@@ -101,39 +109,6 @@ def copyfilesto(files:list, destine_path:str):
         progress_logger.close()
 
     return auto_increment
-    
-def parser():
-    arguments_tree= {}
-    key = "filename"
-    value = []
-    set_filename = True
-    for _args in sys.argv:
-        if _args[0] == "-":
-            if key != _args:
-                if value == []:
-                    arguments_tree[key] = None
-                else:
-                    arguments_tree[key] = value if len(value) > 1 else value[0]
-                    value = []
-            key = _args
-        else:
-            if set_filename:
-                set_filename = False
-                arguments_tree[key] = _args
-
-                key = "lone"
-                value = []
-                continue
-
-            value.append(_args)
-    if key:
-        if value == []:
-            arguments_tree[key] = None
-
-        else:
-            arguments_tree[key] = value if len(value) > 1 else value[0]
-
-    return arguments_tree
 
 def main():
 
