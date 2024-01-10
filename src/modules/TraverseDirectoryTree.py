@@ -2,7 +2,7 @@ import os
 
 def TraverseDirectoryTree(directory):
     files_found = []
-    
+
     for item in os.listdir(directory):
         item_path = os.path.join(directory, item)
 
@@ -12,11 +12,3 @@ def TraverseDirectoryTree(directory):
             files_found.extend(TraverseDirectoryTree(item_path))
 
     return files_found
-
-
-if __name__ == "__main__":
-    initial_directory = '/home/m0opha/Documents/books'
-    files = TraverseDirectoryTree(initial_directory)
-    for file in files:
-        print(file)
-
