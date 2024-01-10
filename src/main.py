@@ -180,7 +180,7 @@ def main():
         elif _argv in ["--destine", "-d"]:
             if len( _value) < 1:
                 print(f"[-] You can only enter a single path {_argv}")
-                sys.exit()
+                sys.exit(1)
             else:
                 destine_path = _value
         
@@ -198,6 +198,10 @@ def main():
         
         elif _argv in ["--custom", "-c"]:
             selected_extensions.extend(_value)
+
+    if len(selected_extensions) == 0:
+        print("[-] you must select an extension option")
+        sys.exit(1)
 
     hashingfiles = GetHashingFiles(path=path,  extensions=selected_extensions)     
     selectedfiles = findRepitedFiles(hashingfiles)
