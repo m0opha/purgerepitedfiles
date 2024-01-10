@@ -35,9 +35,9 @@ def GetHashingFiles(path:str, extensions:list):
     finally:
         progress_logger.close()
 
-    return hashing_files
+    return hashing_files , used_files
 
-def findRepitedFiles(hashingfiles:dict):
+def findrepitedfiles(hashingfiles:dict):
     progress_logger = ProgressBarLogger()
     progress_logger.initUI("[*] Find repited files and purge")
     
@@ -100,7 +100,7 @@ def copyfilesto(files:list, destine_path:str):
     finally:
         progress_logger.close()
 
-    print(f"[+]copied files : {auto_increment}")
+    return auto_increment
     
 def parser():
     arguments_tree= {}
@@ -203,11 +203,12 @@ def main():
         print("[-] you must select an extension option")
         sys.exit(1)
 
-    hashingfiles = GetHashingFiles(path=path,  extensions=selected_extensions)     
-    selectedfiles = findRepitedFiles(hashingfiles)
-    copyfilesto(selectedfiles, destine_path=destine_path)
+    hashingfiles , usedfiles = GetHashingFiles(path=path,  extensions=selected_extensions)     
+    selectedfiles = findrepitedfiles(hashingfiles)
+    files_copied = copyfilesto(selectedfiles, destine_path=destine_path)
 
-    
+    print(f"total files : {usedfiles}, copied : {files_copied}, repited : {usedfiles - files_copied}")
+
 if __name__ == "__main__":
     main()
     #print(json.dumps(parser(), indent=2))
