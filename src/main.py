@@ -149,7 +149,7 @@ def main():
 
     extracted_argv = parser()
     allowed_argv = ["filename",
-                    "none",
+                    "lone",
                     "--path",
                     "--destine", 
                     "--img",
@@ -171,10 +171,18 @@ def main():
             sys.exit()
         
         elif _argv in ["--path", "-p"]:
-            path = _value
+            if len( _value) < 1:
+                print(f"[-] You can only enter a single path in {_argv}")
+                sys.exit()
+            else:
+                path = _value
 
         elif _argv in ["--destine", "-d"]:
-            destine_path = _value
+            if len( _value) < 1:
+                print(f"[-] You can only enter a single path {_argv}")
+                sys.exit()
+            else:
+                destine_path = _value
         
         elif _argv in ["--img", "-i"]:
             selected_extensions.extend(img_extensions)
@@ -198,3 +206,4 @@ def main():
     
 if __name__ == "__main__":
     main()
+    #print(json.dumps(parser(), indent=2))
