@@ -6,7 +6,3 @@ def FileHashCalculator(filepath:str):
         content = file.read()        
         hash_sha256 = hashlib.sha256(content).hexdigest()
         return hash_sha256
-
-
-if __name__ == "__main__":
-    print(FileHashCalculator("./temp/stewart.pdf"))
