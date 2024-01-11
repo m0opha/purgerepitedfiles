@@ -41,6 +41,7 @@ class ProgressBarLogger:
         curses.endwin()
 
 if __name__ == "__main__":
+
     progress_logger = ProgressBarLogger()
     progress_logger.initUI()
 
