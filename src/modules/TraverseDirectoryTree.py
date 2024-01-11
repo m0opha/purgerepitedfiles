@@ -8,6 +8,7 @@ def TraverseDirectoryTree(directory):
 
         if os.path.isfile(item_path):
             files_found.append(item_path)
+            
         elif os.path.isdir(item_path):
             files_found.extend(TraverseDirectoryTree(item_path))
 

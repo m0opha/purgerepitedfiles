@@ -4,116 +4,18 @@ import json
 import sys
 from colorama import Fore, Style, Back
 
-from modules import FileHashCalculator
-from modules import TraverseDirectoryTree
-from modules import ProgressBarLogger
 from modules import parser
+from modules import GetHashingFiles
+from modules import FindRepitedFiles
+from modules import CopyFilesTo 
 
-def GetHashingFiles(path:str, extensions:list):
-
-    progress_logger = ProgressBarLogger()
-    progress_logger.initUI("[*] Hashing files")
-
-    allFilesFind = TraverseDirectoryTree(path)
-    hashing_files = {}
-    used_files = 0    
-    total_files = len(allFilesFind)
-    auto_increment = 0
-    
-    try:
-        for _file in allFilesFind:
-            file_extension = _file.split(".")[-1]
-            if file_extension in extensions:
-                hashing_files[auto_increment] = {FileHashCalculator(_file) : _file}
-                progress_logger.drawProgressBar(int(auto_increment*100/total_files))
-                progress_logger.log(f"[+] {_file}")
-                used_files += 1
-        
-            auto_increment += 1
-    except KeyboardInterrupt:
-        progress_logger.close()
-
-    finally:
-        progress_logger.close()
-
-    return hashing_files , used_files
-
-def findrepitedfiles(hashingfiles:dict):
-
-    progress_logger = ProgressBarLogger()
-    progress_logger.initUI("[*] Find repited files and purge")
-    
-    non_repited_files = []
-    repited_files = []
-    
-    total_files = len(hashingfiles)
-    auto_increment = 0
-    
-    try:
-        for _value in hashingfiles.values():        
-            
-            ActualHash = list(_value.keys())[0]
-            ActualPath = list(_value.values())[0]
-
-            if ActualPath in repited_files:
-                auto_increment += 1
-                continue
-
-            for _internvalue in hashingfiles.values():
-          
-                probehash = list(_internvalue.keys())[0]
-                probepath = list(_internvalue.values())[0]
-                
-                if (ActualHash == probehash) and (probepath != ActualPath):
-                    progress_logger.drawProgressBar(int(auto_increment*100/total_files))
-                    progress_logger.log(f"[*] {probepath}")
-                    repited_files.append(probepath)                 
-                    continue
-                
-            non_repited_files.append(ActualPath)
-            auto_increment += 1
-
-    except KeyboardInterrupt:
-        progress_logger.close()
-
-    finally:
-        progress_logger.close()
-
-
-    return non_repited_files
- 
-
-
-def copyfilesto(files:list, destine_path:str):
-
-    if not os.path.exists(destine_path):
-        os.makedirs(destine_path)
-    else:
-        pass
-
-    progress_logger = ProgressBarLogger()
-    progress_logger.initUI("[*] copying files to destination")    
-    auto_increment = 0
-    try:
-        for _file in files:
-            shutil.copy(_file , destine_path)
-            auto_increment += 1
-
-            progress_logger.drawProgressBar(int(auto_increment*100/len(files)))
-            progress_logger.log(f"[-] {_file}")            
-
-    except KeyboardInterrupt:
-        progress_logger.close()
-
-    finally:
-        progress_logger.close()
-
-    return auto_increment
+def help():
+    pass
 
 def main():
 
-    destine_path = ""
-    path = ""
+    destine_path = None
+    path = None
 
     doc_extensions = ['doc', 'docx', 'pdf', 'txt', 'rtf', 'odt', 'xls', 'xlsx', 'ppt', 'pptx', 'csv', 'html', 'htm', 'pages']
     video_extensions = ['mp4', 'avi', 'mkv', 'mov', 'wmv', 'flv', 'm4v', 'mpeg', 'mpg', 'webm', '3gp', 'vob', 'swf']
@@ -174,16 +76,18 @@ def main():
         elif _argv in ["--custom", "-c"]:
             selected_extensions.extend(_value)
 
+
     if len(selected_extensions) == 0:
         print("[-] you must select an extension option")
         sys.exit(1)
 
+
     hashingfiles , usedfiles = GetHashingFiles(path=path,  extensions=selected_extensions)     
-    selectedfiles = findrepitedfiles(hashingfiles)
-    files_copied = copyfilesto(selectedfiles, destine_path=destine_path)
+    selectedfiles = FindRepitedFiles(hashingfiles)
+    files_copied = CopyFilesTo(selectedfiles, destine_path=destine_path)
 
     print(f"total files : {usedfiles}, copied : {files_copied}, repited : {usedfiles - files_copied}")
 
+
 if __name__ == "__main__":
     main()
-    #print(json.dumps(parser(), indent=2))
