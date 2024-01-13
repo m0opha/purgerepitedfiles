@@ -3,10 +3,10 @@ import sys
 from .modules import parser
 from .help import help
 
-from .varibles import (doc_extensions, 
+from ..varibles import (doc_extensions, 
                       video_extensions, 
                       img_extensions, 
-                      allowed_argv, 
+                      allowed_arg, 
                       music_extensions )
 
 def ArgHandler():
@@ -17,7 +17,7 @@ def ArgHandler():
 
     extracted_argv = parser()
     for _argv , _value in extracted_argv.items():
-        if _argv not in allowed_argv:
+        if _argv not in allowed_arg:
             print(f"[+] unrecognized argument {_argv}")
             sys.exit()
 

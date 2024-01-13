@@ -1,4 +1,4 @@
-allowed_argv = ["--help",
+allowed_arg = ["--help",
                 "filename",
                 "lone",
                 "--path",
