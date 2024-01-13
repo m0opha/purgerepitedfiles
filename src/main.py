@@ -1,52 +1,34 @@
-import shutil
-import os
-import json
 import sys
 from colorama import Fore, Style, Back
 
 from modules import parser
-from modules import GetHashingFiles
-from modules import FindRepitedFiles
-from modules import CopyFilesTo 
 
-def help():
-    pass
+from GetHashingFiles import GetHashingFiles
+from FindRepitedFiles import FindRepitedFiles
+from CopyFilesTo import CopyFilesTo 
+from help import help
+
+from varibles import (doc_extensions, 
+                      video_extensions, 
+                      img_extensions, 
+                      allowed_argv, 
+                      music_extensions )
 
 def main():
-
+    
     destine_path = None
     path = None
 
-    doc_extensions = ['doc', 'docx', 'pdf', 'txt', 'rtf', 'odt', 'xls', 'xlsx', 'ppt', 'pptx', 'csv', 'html', 'htm', 'pages']
-    video_extensions = ['mp4', 'avi', 'mkv', 'mov', 'wmv', 'flv', 'm4v', 'mpeg', 'mpg', 'webm', '3gp', 'vob', 'swf']
-    img_extensions = ['jpg', 'jpeg', 'png', 'gif', 'svg', 'bmp', 'tiff', 'tif', 'raw', 'psd', 'ai', 'eps']
-    music_extensions = ['mp3', 'wav', 'flac', 'aac', 'ogg', 'wma', 'm4a', 'midi', 'opus', 'ac3']
-
     selected_extensions = []
-
-    extracted_argv = parser()
-    allowed_argv = ["filename",
-                    "lone",
-                    "--path",
-                    "--destine", 
-                    "--img",
-                    "--music",
-                    "--video",
-                    "--doc",
-                    "--custom",
-                    "-p",
-                    "-d",
-                    "-i",
-                    "-m",
-                    "-v",
-                    "-d",
-                    "-c"]
     
+    extracted_argv = parser()
     for _argv , _value in extracted_argv.items():
         if _argv not in allowed_argv:
             print(f"[+] unrecognized argument {_argv}")
             sys.exit()
-        
+        elif _argv in ["--help", "-h"]:
+            help()
+
         elif _argv in ["--path", "-p"]:
             if len( _value) < 1:
                 print(f"[-] You can only enter a single path in {_argv}")
