@@ -5,7 +5,7 @@ from .modules import Incrementor, ProgressBarLogger
 def DeleteFiles(files:list):
 
     progress_logger = ProgressBarLogger()
-    progress_logger.initUI("[*] Delete repited files in origin direcotry")    
+    progress_logger.initUI("[*] Delete the repeated files in the source directory")    
 
     incrementor = Incrementor()
 
