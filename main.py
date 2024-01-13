@@ -1,10 +1,9 @@
-import sys
 from colorama import Fore, Style, Back
 
-from GetHashingFiles import GetHashingFiles
-from FindRepitedFiles import FindRepitedFiles
-from CopyFilesTo import CopyFilesTo 
-from ArgHandler import ArgHandler
+from src import (GetHashingFiles,
+                 FindRepitedFiles,
+                 CopyFilesTo,
+                 ArgHandler)
 
 def main():
     

@@ -1,4 +1,4 @@
-from modules import ProgressBarLogger
+from .modules import ProgressBarLogger
 
 def FindRepitedFiles(hashingfiles:dict):
 

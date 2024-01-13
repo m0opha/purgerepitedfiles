@@ -1,6 +1,6 @@
-from modules import FileHashCalculator
-from modules import TraverseDirectoryTree
-from modules import ProgressBarLogger
+from .modules import FileHashCalculator
+from .modules import TraverseDirectoryTree
+from .modules import ProgressBarLogger
 
 def GetHashingFiles(path:str, extensions:list):
 

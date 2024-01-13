@@ -19,7 +19,7 @@ build_binary() {
         echo "PyInstaller is already installed."
     fi
 
-    pyinstaller --onefile -i NONE --name purgerepitedfiles src/main.py
+    pyinstaller --onefile -i NONE --name purgerepitedfiles main.py
 }
 
 
