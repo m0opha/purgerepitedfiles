@@ -10,7 +10,7 @@ build_binary() {
         echo "PyInstaller is already installed."
     fi
 
-    pyinstaller --onefile -i NONE --name purgerepitedfiles purgerepitedfiles.py
+    pyinstaller --onefile -i NONE purgerepitedfiles.py
 }
 
 
