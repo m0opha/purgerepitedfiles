@@ -1,6 +1,5 @@
 import curses
 import time
-from colorama import Fore, Back, Style
 
 class ProgressBarLogger:
 
