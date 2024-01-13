@@ -23,7 +23,7 @@ def CopyFilesTo(files:list, destine_path:str):
             progress_logger.log(f"[-] {_file}")            
 
     except KeyboardInterrupt:
-        progress_logger.close()
+        pass
 
     finally:
         progress_logger.close()

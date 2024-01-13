@@ -14,6 +14,7 @@ def ArgHandler():
     path = None
     destine_path = None
     selected_extensions = []
+    purge_duplicates = False
 
     extracted_argv = parser()
 
@@ -27,7 +28,7 @@ def ArgHandler():
 
         elif _argv in ["--help", "-h"]:
             help()
-
+        
         elif _argv in ["--path", "-p"]:
             if len( _value) < 1:
                 print(f"[-] You can only enter a single path in {_argv}")
@@ -35,6 +36,9 @@ def ArgHandler():
 
             else:
                 path = _value
+
+        elif _argv in ["--purge-duplicates", "-pd"]:
+            purge_duplicates = True
 
         elif _argv in ["--destine", "-d"]:
             if len( _value) < 1:
@@ -63,4 +67,4 @@ def ArgHandler():
         print("[-] you must select an extension option")
         sys.exit(1)
 
-    return selected_extensions, path , destine_path
+    return selected_extensions, path , destine_path, purge_duplicates

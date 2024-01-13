@@ -36,9 +36,9 @@ def FindRepitedFiles(hashingfiles:dict):
             incrementor.increment()
 
     except KeyboardInterrupt:
-        progress_logger.close()
+        pass
 
     finally:
         progress_logger.close()
 
-    return non_repited_files
+    return non_repited_files, repited_files

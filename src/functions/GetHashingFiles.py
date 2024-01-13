@@ -10,7 +10,7 @@ def GetHashingFiles(path:str, extensions:list):
     hashing_files = {}
     
     total_files = len(allFilesFind)
-    
+
     files_to_use = Incrementor()    
     incrementor = Incrementor()
     
@@ -30,7 +30,7 @@ def GetHashingFiles(path:str, extensions:list):
             incrementor.increment()
    
     except KeyboardInterrupt:
-        progress_logger.close()
+        pass
 
     finally:
         progress_logger.close()
