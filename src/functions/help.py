@@ -25,5 +25,6 @@ Extensions Selector:       Handle Extensions:
   --custom, -c             : "add your custom file extensions"
 
 You can use these arguments wherever you want. The extensions are additive.
-""")
+
+Author m0opha.""")
   sys.exit(0)
