@@ -1,14 +1,5 @@
 #!/bin/bash
 
-install_requirements() {
-    if [ -f "requirements.txt" ]; then
-        pip install -r requirements.txt
-        echo "Requerimientos instalados correctamente."
-    else
-        echo "Error: No se encontró el archivo requirements.txt en el directorio actual." >&2
-    fi
-}
-
 build_binary() {
 
     if ! command -v pyinstaller &> /dev/null; then
@@ -25,10 +16,6 @@ build_binary() {
 
 while [[ "$#" -gt 0 ]]; do
     case "$1" in
-        -i|--install)
-            echo "Installing project requirements..."
-            install_requirements
-            ;;
         -b|--build)
             echo "Building a binary of the project with pyinstaller..."
             build_binary
