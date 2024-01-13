@@ -1,6 +1,5 @@
-from .modules import FileHashCalculator
-from .modules import TraverseDirectoryTree
-from .modules import ProgressBarLogger
+from .modules import FileHashCalculator, TraverseDirectoryTree, ProgressBarLogger, Incrementor
+
 
 def GetHashingFiles(path:str, extensions:list):
 
@@ -10,25 +9,30 @@ def GetHashingFiles(path:str, extensions:list):
     allFilesFind = TraverseDirectoryTree(path)
     hashing_files = {}
     
-    used_files = 0    
     total_files = len(allFilesFind)
-    auto_increment = 0
+    
+    files_to_use = Incrementor()    
+    incrementor = Incrementor()
     
     try:
         for _file in allFilesFind:
             file_extension = _file.split(".")[-1]
             
             if file_extension in extensions:
-                hashing_files[auto_increment] = {FileHashCalculator(_file) : _file}
-                progress_logger.drawProgressBar(int(auto_increment*100/total_files))
+   
+                hashing_files[incrementor.get()] = {FileHashCalculator(_file) : _file}
+                progress_logger.drawProgressBar(int(incrementor.get()*100/total_files))
+   
                 progress_logger.log(f"[+] {_file}")
-                used_files += 1
+   
+                files_to_use.increment()
         
-            auto_increment += 1
+            incrementor.increment()
+   
     except KeyboardInterrupt:
         progress_logger.close()
 
     finally:
         progress_logger.close()
 
-    return hashing_files , used_files
+    return hashing_files , files_to_use.get()

@@ -1,7 +1,7 @@
 import os
 import shutil
 
-from .modules import ProgressBarLogger
+from .modules import ProgressBarLogger , Incrementor
 
 def CopyFilesTo(files:list, destine_path:str):
 
@@ -12,13 +12,14 @@ def CopyFilesTo(files:list, destine_path:str):
 
     progress_logger = ProgressBarLogger()
     progress_logger.initUI("[*] copying files to destination")    
-    auto_increment = 0
+    incrementor = Incrementor()
+
     try:
         for _file in files:
             shutil.copy(_file , destine_path)
-            auto_increment += 1
+            incrementor.increment()
 
-            progress_logger.drawProgressBar(int(auto_increment*100/len(files)))
+            progress_logger.drawProgressBar(int(incrementor.get()*100/len(files)))
             progress_logger.log(f"[-] {_file}")            
 
     except KeyboardInterrupt:
@@ -27,4 +28,4 @@ def CopyFilesTo(files:list, destine_path:str):
     finally:
         progress_logger.close()
 
-    return auto_increment
+    return incrementor.get()

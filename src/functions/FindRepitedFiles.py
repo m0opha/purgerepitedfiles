@@ -1,4 +1,4 @@
-from .modules import ProgressBarLogger
+from .modules import ProgressBarLogger, Incrementor
 
 def FindRepitedFiles(hashingfiles:dict):
 
@@ -9,7 +9,7 @@ def FindRepitedFiles(hashingfiles:dict):
     repited_files = []
     
     total_files = len(hashingfiles)
-    auto_increment = 0
+    incrementor = Incrementor()
     
     try:
         for _value in hashingfiles.values():        
@@ -18,7 +18,7 @@ def FindRepitedFiles(hashingfiles:dict):
             ActualPath = list(_value.values())[0]
 
             if ActualPath in repited_files:
-                auto_increment += 1
+                incrementor.increment()
                 continue
 
             for _internvalue in hashingfiles.values():
@@ -27,13 +27,13 @@ def FindRepitedFiles(hashingfiles:dict):
                 probepath = list(_internvalue.values())[0]
                 
                 if (ActualHash == probehash) and (probepath != ActualPath):
-                    progress_logger.drawProgressBar(int(auto_increment*100/total_files))
+                    progress_logger.drawProgressBar(int(incrementor.get()*100/total_files))
                     progress_logger.log(f"[*] {probepath}")
                     repited_files.append(probepath)                 
                     continue
                 
             non_repited_files.append(ActualPath)
-            auto_increment += 1
+            incrementor.increment()
 
     except KeyboardInterrupt:
         progress_logger.close()
