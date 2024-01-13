@@ -28,7 +28,7 @@ while [[ "$#" -gt 0 ]]; do
                 echo "Executable not found. Building binary..."
                 build_binary
                 echo "Running app..."
-                ./dist/purgerepitedfiles --help
+                ./dist/purgerepitedfiles
             fi
             ;;
         *)

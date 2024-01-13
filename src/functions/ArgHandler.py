@@ -16,6 +16,10 @@ def ArgHandler():
     selected_extensions = []
 
     extracted_argv = parser()
+
+    if len(extracted_argv) == 2:
+        help()
+
     for _argv , _value in extracted_argv.items():
         if _argv not in allowed_arg:
             print(f"[+] unrecognized argument {_argv}")
