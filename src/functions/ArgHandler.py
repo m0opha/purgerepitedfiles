@@ -4,10 +4,10 @@ from .modules import parser
 from .help import help
 
 from ..varibles import (doc_extensions, 
-                      video_extensions, 
-                      img_extensions, 
-                      allowed_arg, 
-                      music_extensions )
+                        video_extensions, 
+                        img_extensions, 
+                        allowed_arg, 
+                        music_extensions )
 
 def ArgHandler():
 
