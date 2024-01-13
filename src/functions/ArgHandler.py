@@ -7,7 +7,7 @@ from ..varibles import (doc_extensions,
                         video_extensions, 
                         img_extensions, 
                         allowed_arg, 
-                        music_extensions )
+                        music_extensions)
 
 def ArgHandler():
 
