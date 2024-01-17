@@ -3,7 +3,7 @@ import sys
 from .modules import parser
 from .help import help
 
-from ..varibles import (doc_extensions, 
+from ..variables import (doc_extensions, 
                         video_extensions, 
                         img_extensions, 
                         allowed_arg, 
